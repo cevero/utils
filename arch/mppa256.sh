@@ -144,7 +144,7 @@ function run
 				--multibinary=$image             \
 				$execfile                        \
 			|& tee $OUTFILE
-			line=$(cat $OUTFILE | tail -1 )
+			line=$(cat $OUTFILE-0 | tail -1 )
 			if [[ "$line" = *"powering off"* ]] || [[ $line == *"halting"* ]];
 			then
 				echo "Succeed !"
