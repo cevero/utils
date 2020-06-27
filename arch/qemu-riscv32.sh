@@ -76,15 +76,15 @@ function setup_toolchain
 	./contrib/download_prerequisites
 	mkdir build
 	cd build
-	../configure --target=$TARGET --prefix=$PREFIX --disable-nls --enable-languages=c --without-headers --disable-multilib
+	../configure --target=$TARGET --prefix=$PREFIX --disable-nls --enable-languages=c --without-headers --disable-multilib --enable-libgomp --enable-threads=single
 	make -j $NCORES all-gcc
 	make -j $NCORES all-target-libgcc
 	make install-gcc
 	make install-target-libgcc
 
 	# Cleanup.
-	cd $WORKDIR
-	rm -rf gcc*
+	#cd $WORKDIR
+	#rm -rf gcc*
 
 	# Build GDB.
 	cd $WORKDIR
