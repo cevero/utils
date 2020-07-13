@@ -53,9 +53,9 @@ function setup_toolchain
 	cd $WORKDIR
 
 	# Get toolchain.
-	wget "https://github.com/nanvix/toolchain/archive/$COMMIT.zip"
-	unzip $COMMIT.zip
-	mv toolchain-$COMMIT/* .
+#	wget "https://github.com/nanvix/toolchain/archive/$COMMIT.zip"
+#	unzip $COMMIT.zip
+#	mv toolchain-$COMMIT/* .
 
 	# Cleanup.
 	rm -rf toolchain-$COMMIT
@@ -74,7 +74,7 @@ function setup_toolchain
 	# Build GCC.
 	cd gcc*/
 	./contrib/download_prerequisites
-	mkdir build
+#	mkdir build
 	cd build
 	../configure --target=$TARGET --prefix=$PREFIX --disable-nls --enable-languages=c --without-headers --disable-multilib --enable-libgomp --enable-threads=single
 	make -j $NCORES all-gcc
