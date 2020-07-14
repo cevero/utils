@@ -53,9 +53,9 @@ function setup_toolchain
 	cd $WORKDIR
 
 	# Get toolchain.
-#	wget "https://github.com/nanvix/toolchain/archive/$COMMIT.zip"
-#	unzip $COMMIT.zip
-#	mv toolchain-$COMMIT/* .
+	wget "https://github.com/nanvix/toolchain/archive/$COMMIT.zip"
+	unzip $COMMIT.zip
+	mv toolchain-$COMMIT/* .
 
 	# Cleanup.
 	rm -rf toolchain-$COMMIT
@@ -74,15 +74,20 @@ function setup_toolchain
 	# Build GCC.
 	cd gcc*/
 	./contrib/download_prerequisites
-#	mkdir build
+	mkdir build
 	cd build
-	../configure --target=$TARGET --prefix=$PREFIX --disable-nls --enable-languages=c --without-headers --disable-multilib --enable-libgomp --enable-threads=single
+	../configure --target=$TARGET --prefix=$PREFIX --disable-nls \
+             --enable-languages=c --without-headers --disable-multilib --with-toolexeclibdir=$WORKDIR --enable-libgomp --enable-libatomic --enable-libitm --enable-libsanitizer --enable-libvtv --enable-libphobos --enable-gnattools --enable-gotools --enable-libada --enable-libhsail-rt --enable-libstdc++-v3 --enable-zlib --enable-libbacktrace --enable-libgfortran --enable-libgo --enable-libffi --enable-libobjc  --liboffloadmic=yes
+
+
 	make -j $NCORES all-gcc
 	make -j $NCORES all-target-libgcc
+	make -j $NCORES all-target-libgomp
 	make install-gcc
 	make install-target-libgcc
+	make install-target-libgomp
 
-	# Cleanup.
+	 Cleanup.
 	#cd $WORKDIR
 	#rm -rf gcc*
 
