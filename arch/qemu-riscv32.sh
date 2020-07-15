@@ -77,23 +77,22 @@ function setup_toolchain
 	mkdir build
 	cd build
 	../configure --target=$TARGET --prefix=$PREFIX --disable-nls \
-             --enable-languages=c --without-headers --disable-multilib --enable-libgomp --enable-libatomic --enable-libitm --enable-libsanitizer --enable-libvtv --enable-libstdc++-v3 --enable-zlib --enable-libbacktrace  --enable-libffi   --liboffloadmic=yes
-
+             --enable-languages=c --without-headers --disable-multilib \
+             --enable-libgomp --enable-libatomic --enable-libitm \
+             --enable-libsanitizer --enable-libvtv --enable-libstdc++-v3 \
+             --enable-zlib --enable-libbacktrace  --enable-libffi \
+             --liboffloadmic=yes
 
 	make -j $NCORES all-gcc
 	make -j $NCORES all-target-libgcc
 	make -j $NCORES all-target-libgomp
 	make install-gcc
 	make install-target-libgcc
-    cd ../libgomp
-    mkdir build
-    cd build
-    ../configure --disable-multilib --disable-nls --without-headers --target=riscv32-elf
 	make install-target-libgomp
 
-	 Cleanup.
-	#cd $WORKDIR
-	#rm -rf gcc*
+    # Cleanup.
+	cd $WORKDIR
+	rm -rf gcc*
 
 	# Build GDB.
 	cd $WORKDIR
