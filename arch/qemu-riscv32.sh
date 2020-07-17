@@ -76,21 +76,16 @@ function setup_toolchain
 	./contrib/download_prerequisites
 	mkdir build
 	cd build
-	../configure --target=$TARGET --prefix=$PREFIX --disable-nls \
-             --enable-languages=c --without-headers --disable-multilib \
-             --enable-libgomp --enable-libatomic --enable-libitm \
-             --enable-libsanitizer --enable-libvtv --enable-libstdc++-v3 \
-             --enable-zlib --enable-libbacktrace  --enable-libffi \
-             --liboffloadmic=yes
-
+../configure --target=$TARGET --prefix=$PREFIX --disable-nls \
+             --enable-languages=c --without-headers --disable-multilib --with-toolexeclibdir=$WORKDIR --enable-libgomp --enable-libatomic --enable-libitm --enable-libsanitizer --enable-libvtv --enable-libphobos --enable-gnattools --enable-gotools  --enable-libhsail-rt --enable-libstdc++-v3  --enable-libbacktrace --enable-libgfortran  --enable-libffi # --liboffloadmic=yes
 	make -j $NCORES all-gcc
 	make -j $NCORES all-target-libgcc
-	make -j $NCORES all-target-libgomp
-	make install-gcc
-	make install-target-libgcc
-	make install-target-libgomp
+    make -j $NCORES all-target-libgomp
+    make install-gcc
+    make install-target-libgcc
+    make install-target-libgomp
 
-    # Cleanup.
+	# Cleanup.
 #	cd $WORKDIR
 #	rm -rf gcc*
 
