@@ -91,8 +91,8 @@ function setup_toolchain
 	make install-target-libgomp
 
     # Cleanup.
-	cd $WORKDIR
-	rm -rf gcc*
+#	cd $WORKDIR
+#	rm -rf gcc*
 
 	# Build GDB.
 	cd $WORKDIR
