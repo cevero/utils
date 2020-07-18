@@ -77,13 +77,12 @@ function setup_toolchain
 	mkdir build
 	cd build
 ../configure --target=$TARGET --prefix=$PREFIX --disable-nls \
-             --enable-languages=c --without-headers --disable-multilib  --enable-libgomp --enable-libatomic--enable-gnattools  --enable-libstdc++-v3 # --enable-libgfortran  --enable-libffi # --liboffloadmic=yes
+             --enable-languages=c --without-headers --disable-multilib  --enable-libgomp --enable-libatomic--enable-gnattools  --enable-libstdc++-v3 --enable-threads=pthreads # --enable-libgfortran  --enable-libffi # --liboffloadmic=ye
 	make -j $NCORES all-gcc
 	make -j $NCORES all-target-libgcc
     make -j $NCORES all-target-libgomp
     make install-gcc
     make install-target-libgcc
-    cd libgomp
     make install-target-libgomp
 
 	# Cleanup.
