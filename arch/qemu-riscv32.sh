@@ -76,14 +76,8 @@ function setup_toolchain
 	./contrib/download_prerequisites
 	mkdir build
 	cd build
-    ../configure --target=$TARGET --prefix=$PREFIX --disable-nls \
-            --enable-languages=c,c++,fortran,go,objc \
-            -- --disable-multilib \
-            --enable-libgomp --enable-libgfortran \
-            --enable-libobjc 
-            --without-headers--enable-libatomic \
-                --enable-threads=posix \
-            
+../configure --target=$TARGET --prefix=$PREFIX --disable-nls \
+             --enable-languages=c --without-headers --disable-multilib  --enable-libgomp --enable-libatomic--enable-gnattools  --enable-libstdc++-v3 --enable-threads=pthreads # --enable-libgfortran  --enable-libffi # --liboffloadmic=ye
 	make -j $NCORES all-gcc
 	make -j $NCORES all-target-libgcc
     make -j $NCORES all-target-libgomp
