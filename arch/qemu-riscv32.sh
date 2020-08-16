@@ -55,7 +55,11 @@ function setup_toolchain
 	# Get toolchain.
 #	wget "https://github.com/nanvix/toolchain/archive/$COMMIT.zip"
 #  	wget "https://github.com/riscv/riscv-gcc/archive/$COMMIT.zip"
-    git clone --recursive https://github.com/riscv/riscv-gnu-toolchain toolchain
+    git clone --recursive https://github.com/riscv/riscv-gnu-toolchain
+    mv riscv-gnu-toolchain/* $WORKDIR
+    rm -rf riscv-gnu-toolchain
+
+
 #	unzip $COMMIT.zip
 #	mv toolchain-$COMMIT/* .
 #
@@ -64,14 +68,14 @@ function setup_toolchain
 #	rm -rf $COMMIT.zip
 
 	# Build binutils.
-	cd binutils*/
+	cd riscv-binutils*/
 	./configure --target=$TARGET --prefix=$PREFIX --disable-nls
 	make -j $NCORES all
 	make install
 
 	# Cleanup.
 	cd $WORKDIR
-	rm -rf binutils*
+	rm -rf riscv-binutils*
 
 	# Build GCC.
 	#cd gcc*/
@@ -90,7 +94,7 @@ function setup_toolchain
 
 	make -j $NCORES all-gcc
 	make -j $NCORES all-target-libgcc
-#    make -j $NCORES all-target-libgomp
+#   make -j $NCORES all-target-libgomp
 #	make -j $NCORES all-target-libstdc++-v3
 #	make -j $NCORES all-target-libgfortran
 #   make -j $NCORES all-target-libatomic
@@ -109,14 +113,14 @@ function setup_toolchain
 
 	# Build GDB.
 	cd $WORKDIR
-	cd gdb*/
+	cd riscv-gdb*/
 	./configure --target=$TARGET --prefix=$PREFIX --with-auto-load-safe-path=/ --with-guile=no
 	make -j $NCORES
 	make install
 
 	# Cleanup.
 	cd $WORKDIR
-	rm -rf gdb*
+	rm -rf riscv-gdb*
 
 	# Back to the current folder
 	cd $CURDIR
