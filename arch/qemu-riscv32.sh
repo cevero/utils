@@ -44,8 +44,8 @@ function setup_toolchain
 	local WORKDIR=$CURDIR/toolchain/riscv32
 	local PREFIX=$WORKDIR
 	local TARGET=riscv32-elf
-	local COMMIT=ab8b80604f02db4b00af24302bc9d20ebfcdd911
-	
+	#local COMMIT=ab8b80604f02db4b00af24302bc9d20ebfcdd911
+#	local COMMIT=3e6d81b9e2a96d04b8ce68ee30a1061181ebedc4
 	# Retrieve the number of processor cores
 	local NCORES=`grep -c ^processor /proc/cpuinfo`
 
@@ -53,13 +53,15 @@ function setup_toolchain
 	cd $WORKDIR
 
 	# Get toolchain.
-	wget "https://github.com/nanvix/toolchain/archive/$COMMIT.zip"
-	unzip $COMMIT.zip
-	mv toolchain-$COMMIT/* .
-
-	# Cleanup.
-	rm -rf toolchain-$COMMIT
-	rm -rf $COMMIT.zip
+#	wget "https://github.com/nanvix/toolchain/archive/$COMMIT.zip"
+#  	wget "https://github.com/riscv/riscv-gcc/archive/$COMMIT.zip"
+    git clone --recursive https://github.com/riscv/riscv-gnu-toolchain toolchain
+#	unzip $COMMIT.zip
+#	mv toolchain-$COMMIT/* .
+#
+#	# Cleanup.
+#	rm -rf toolchain-$COMMIT
+#	rm -rf $COMMIT.zip
 
 	# Build binutils.
 	cd binutils*/
@@ -72,31 +74,34 @@ function setup_toolchain
 	rm -rf binutils*
 
 	# Build GCC.
-	cd gcc*/
+	#cd gcc*/
+	cd riscv-gcc*/
 	./contrib/download_prerequisites
 	mkdir build
 	cd build
     ../configure --target=$TARGET --prefix=$PREFIX --disable-nls \
-             --enable-languages=c,c++ --enable-libstdc++-v3 \
-                 --without-headers --disable-multilib --enable-libssp \
-             --enable-libgomp --disable-bootstrap \
+             --enable-languages=c --without-headers --enable-multilib \
+             --enable-libgomp --with-arch=rv32imac # --enable-threads=posix
+             #,c++ --enable-libstdc++-v3
+                 # --enable-libssp \
+                 # --disable-bootstrap \
 #             --enable-offload-target=riscv32-elf  --enable-threads=posix \
 #              --enable-libatomic --enable-libgfortran \
 
 	make -j $NCORES all-gcc
 	make -j $NCORES all-target-libgcc
-	make -j $NCORES all-target-libstdc++-v3
+#    make -j $NCORES all-target-libgomp
+#	make -j $NCORES all-target-libstdc++-v3
 #	make -j $NCORES all-target-libgfortran
-#    make -j $NCORES all-target-libatomic
-    make -j $NCORES all-target-libgomp
-#    make -j $NCORES all-target-libada
+#   make -j $NCORES all-target-libatomic
+#   make -j $NCORES all-target-libada
 
     make install-gcc
     make install-target-libgcc
-    make install-target-libstdc++-v3
+#   make install-target-libstdc++-v3
 #    make install-target-libgfortran
 #    make install-target-libatomic
-    make install-target-libgomp
+#    make install-target-libgomp
 
 	# Cleanup.
 #	cd $WORKDIR

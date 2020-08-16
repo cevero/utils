@@ -4,3 +4,5 @@
 
 # Directories
 toolchain/
+libgomp*
+riscv32.sh
