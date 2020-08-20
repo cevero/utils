@@ -84,8 +84,8 @@ function setup_toolchain
 	mkdir build
 	cd build
     ../configure --target=$TARGET --prefix=$PREFIX --disable-nls \
-             --enable-languages=c --without-headers --enable-multilib \
-             --enable-libgomp --with-arch=rv32imac # --enable-threads=posix
+             --enable-languages=c --without-headers --disable-multilib \
+             --enable-libgomp --with-arch=rv32imac #  --enable-threads=posix
              #,c++ --enable-libstdc++-v3
                  # --enable-libssp \
                  # --disable-bootstrap \
@@ -94,12 +94,12 @@ function setup_toolchain
 
 	make -j $NCORES all-gcc
 	make -j $NCORES all-target-libgcc
-#   make -j $NCORES all-target-libgomp
-#	make -j $NCORES all-target-libstdc++-v3
-#	make -j $NCORES all-target-libgfortran
-#   make -j $NCORES all-target-libatomic
-#   make -j $NCORES all-target-libada
-
+##   make -j $NCORES all-target-libgomp
+##	make -j $NCORES all-target-libstdc++-v3
+##	make -j $NCORES all-target-libgfortran
+##   make -j $NCORES all-target-libatomic
+##   make -j $NCORES all-target-libada
+#
     make install-gcc
     make install-target-libgcc
 #   make install-target-libstdc++-v3
