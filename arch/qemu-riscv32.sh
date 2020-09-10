@@ -74,17 +74,21 @@ function setup_toolchain
 	# Build GCC.
 	cd gcc*/
 	./contrib/download_prerequisites
+
+    # Apply patch to allow enabling libgomp without pthreads support
+    patch gcc/gcc.c $CURDIR/nanvix-libgomp-gcc.diff
+
 	mkdir build
 	cd build
-	../configure --target=$TARGET --prefix=$PREFIX --disable-nls --enable-languages=c --without-headers --disable-multilib
+	../configure --target=$TARGET --prefix=$PREFIX --disable-nls --enable-languages=c --without-headers --disable-multilib --enable-libgomp
 	make -j $NCORES all-gcc
 	make -j $NCORES all-target-libgcc
 	make install-gcc
 	make install-target-libgcc
 
 	# Cleanup.
-	cd $WORKDIR
-	rm -rf gcc*
+    cd $WORKDIR
+    rm -rf gcc*
 
 	# Build GDB.
 	cd $WORKDIR

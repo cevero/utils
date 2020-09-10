@@ -1,0 +1,16 @@
+--- ../../microkernel-benchmarks-reinaldo/utils/toolchain/riscv32/gcc-9.1.0/gcc/gcc.c	2019-07-24 14:11:58.000000000 -0300
++++ gcc.c	2020-09-07 21:11:14.657049177 -0300
+@@ -1210,9 +1210,10 @@ static const char *const multilib_defaul
+ /* Linking to libgomp implies pthreads.  This is particularly important
+    for targets that use different start files and suchlike.  */
+ #ifndef GOMP_SELF_SPECS
+-#define GOMP_SELF_SPECS \
+-  "%{fopenacc|fopenmp|%:gt(%{ftree-parallelize-loops=*:%*} 1): " \
+-  "-pthread}"
++//#define GOMP_SELF_SPECS \
++//  "%{fopenacc|fopenmp|%:gt(%{ftree-parallelize-loops=*:%*} 1): " \
++//  "-pthread}"
++#define GOMP_SELF_SPECS ""
+ #endif
+ 
+ /* Likewise for -fgnu-tm.  */
