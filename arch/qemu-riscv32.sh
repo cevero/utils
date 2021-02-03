@@ -80,7 +80,9 @@ function setup_toolchain
 
 	mkdir build
 	cd build
-	../configure --target=$TARGET --prefix=$PREFIX --disable-nls --enable-languages=c --without-headers --disable-multilib --enable-libgomp
+	../configure --target=$TARGET --prefix=$PREFIX --disable-nls \
+        --enable-languages=c --without-headers --disable-multilib \
+        --enable-libgomp --with-abi=ilp32 #--with-arch=rv32gc 
 	make -j $NCORES all-gcc
 	make -j $NCORES all-target-libgcc
 	make install-gcc
